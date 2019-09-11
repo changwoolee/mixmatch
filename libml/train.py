@@ -239,6 +239,8 @@ class ClassifySemi(Model):
                         self.ops.x: images[x:x + batch],
                         **(feed_extra or {})
                     })
+                if len(p.shape) == 3:
+                    p = np.mean(p, axis=0)
                 predicted.append(p)
             predicted = np.concatenate(predicted, axis=0)
             accuracies.append((predicted.argmax(1) == labels).mean() * 100)
